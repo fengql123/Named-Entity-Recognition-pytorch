@@ -15,6 +15,7 @@ hidden_size = 64
 use_glove = False
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = NER(vocab_size, embed_size, hidden_size, num_layers, tag_size, use_glove=use_glove).to(device=device)
+model.load_state_dict(torch.load("./saved_no_glove.pth"))
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ app = Flask(__name__)
 @app.route("/classify", methods=["POST"])
 def classify():
     if request.method == 'POST':
-        sentence = request.sentence
+        sentence = request.json["sentence"]
     if not sentence:
         return jsonify({'error': 'sentence is null'})
     else:

@@ -49,6 +49,7 @@ def train_and_eval(model, train, test, optimizer, criterion, device, epoch):
 
 
 def predict(model, sentence, max_len, vocab, glove_vocab, labels_dict, use_glove, device):
+    model.eval()
     with torch.inference_mode():
         temp = Data([sentence.split()], None, max_len, vocab, glove_vocab, labels_dict, use_glove)
         for x, pad_idx in temp:
@@ -80,7 +81,10 @@ class Data(Dataset):
                 self.y_train.append(labels_dict(new_y))
             else:
                 pass
-        self.x_train = torch.stack(self.x_train)
+        if use_glove:
+            self.x_train = torch.stack(self.x_train)
+        else:
+            self.x_train = torch.tensor(self.x_train)
         if l:
             self.y_train = torch.tensor(self.y_train)
 
