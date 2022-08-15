@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import torch
-from model import NER
+from model import NER, NER_transformer
 from utils import predict
 
 vocab = torch.load("../vocabs/vocab_obj.pth")
