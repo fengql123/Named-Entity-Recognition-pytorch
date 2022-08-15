@@ -42,3 +42,7 @@ class NER_transformer(nn.Module):
         x = self.transformer(x)
         x = self.fc_dropout(self.fc(x))
         return x
+
+class NER_bilstm_cnn(nn.Module):
+    def __init__(self):
+        super(NER_bilstm_cnn, self).__init__()
